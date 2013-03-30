@@ -1,5 +1,6 @@
 var container = require('tower-container')
-  , bundle = require('tower-bundle');
+  , bundle = require('tower-bundle')
+  , ansi   = require('ansi');
 
 var app = {};
 
@@ -42,6 +43,10 @@ Application.prototype.listen = function() {
   //this.bundle.watch();
 
   return this.app.listen.apply(this.app, arguments);
+}
+
+Application.prototype.log = function(action, message) {
+
 }
 
 module.exports = create;

@@ -1,3 +1,8 @@
+
+/**
+ * Module dependencies.
+ */
+
 var container = require('tower-container')
   , bundler = require('tower-bundle')
   , bundle = bundler.bundle
@@ -9,6 +14,16 @@ var container = require('tower-container')
   , app = {}
   , server = {};
 
+/**
+ * Expose `create`.
+ */
+
+module.exports = create;
+
+/**
+ * Create a new `Application`.
+ */
+
 function create(appArg, server) {
   app = appArg;
   server = server;
@@ -17,9 +32,7 @@ function create(appArg, server) {
 }
 
 function Application(name) {
-  if (!(this instanceof Application)) {
-    return new Application(name);
-  }
+  if (!(this instanceof Application)) return new Application(name);
 
   this.options = {
     environment: server.environemnt
@@ -40,15 +53,15 @@ function Application(name) {
   this.app.use('/public', express.static(process.cwd() + '/public'));
 }
 
-Application.prototype.set = function(key, value) {
-  this.app.set(key, value);
+Application.prototype.set = function(key, val){
+  this.app.set(key, val);
 };
 
-Application.prototype.get = function(key) {
+Application.prototype.get = function(key){
   return this.app.get(key);
 };
 
-Application.prototype.listen = function() {
+Application.prototype.listen = function(){
   this.bundler.compile();
   this.log("bundler", "Compiled Assets.")
   // Check if we're running in dev mode.
@@ -61,5 +74,3 @@ Application.prototype.listen = function() {
 }
 
 Application.prototype.log = consoleFn;
-
-module.exports = create;

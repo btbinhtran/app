@@ -75,6 +75,7 @@ Application.prototype.listen = function(){
 
 Application.prototype.log = consoleFn;
 
+// same with log/view/route/stream
 Application.prototype.model = function(){
   return Application.prototype.model = require('tower-model');
 }

@@ -2,6 +2,7 @@
   "name": "tower-app",
   "version": "0.0.1",
   "dependencies": {
-    "ansi": "latest"
+    "ansi": "latest",
+    "express": "*"
   }
 }

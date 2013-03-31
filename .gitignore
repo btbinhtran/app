@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 .DS_Store
 tmp
 node_modules
 *.log
 components
+=======
+node_modules/
+>>>>>>> origin/master

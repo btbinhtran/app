@@ -1,8 +1,12 @@
-var container = require('tower-container')
-  , bundle = require('tower-bundle')
-  , ansi   = require('ansi')
-  , cursor = ansi(process.stdout, { enabled: true })
-  , consoleFn = require('./lib/console');
+var container = require('tower-container'),
+  bundler = require('tower-bundle'),
+  bundle = bundler.bundle,
+  ansi = require('ansi'),
+  cursor = ansi(process.stdout, {
+    enabled: true
+  }),
+  consoleFn = require('./lib/console'),
+  route = require('tower-route');
 
 var app = {};
 var server = {};
@@ -28,15 +32,18 @@ function Application(name) {
   this.set('name', name);
   this.container = container;
   this.view = {};
+  this.bundler = bundler();
   this.bundle = bundle;
   this.model = {};
   this.stream = {};
-  this.route = {};
+  this.route = route;
   this.server = {};
+
+  this.app.use(this.bundler.middleware);
 }
 
 Application.prototype.set = function(key, value) {
-  this.app.set(key,value);
+  this.app.set(key, value);
 };
 
 Application.prototype.get = function(key) {
@@ -44,6 +51,7 @@ Application.prototype.get = function(key) {
 };
 
 Application.prototype.listen = function() {
+  this.bundler.compile();
   // Check if we're running in dev mode.
   // Run the bundler:
   //this.bundle.watch();

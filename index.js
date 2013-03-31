@@ -74,3 +74,7 @@ Application.prototype.listen = function(){
 }
 
 Application.prototype.log = consoleFn;
+
+Application.prototype.model = function(){
+  return Application.prototype.model = require('tower-model');
+}

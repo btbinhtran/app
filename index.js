@@ -3,14 +3,12 @@
  * Module dependencies.
  */
 
-var container = require('tower-container')
-  , bundler = require('tower-bundle')
-  , bundle = bundler.bundle
-  , ansi = require('ansi')
+var ansi = require('ansi')
   , cursor = ansi(process.stdout, { enabled: true })
+  // XXX: Move this into the `tower-log` module
   , consoleFn = require('./lib/console')
-  , route = require('tower-route')
   , express = require('express')
+  , Context = require('tower-context')
   , app = {}
   , server = {};
 
@@ -34,6 +32,8 @@ function create(appArg, server) {
 function Application(name) {
   if (!(this instanceof Application)) return new Application(name);
 
+  var self = this;
+
   this.options = {
     environment: server.environemnt
   };
@@ -41,16 +41,17 @@ function Application(name) {
   this.app = app;
   this.set('port', 3000);
   this.set('name', name);
-  this.container = container;
-  this.view = {};
-  this.bundler = bundler();
-  this.bundle = bundle;
-  this.model = {};
-  this.stream = {};
-  this.route = route;
-  this.server = {};
 
   this.app.use('/public', express.static(process.cwd() + '/public'));
+
+  // XXX: Not sure exactly how `server-router` is supposed to be used.
+  this.app.use(function(req, res, next) {
+    var context = new Context(req.url);
+    self.router(context, function() {
+      console.log(context.path);
+    });
+  });
+
 }
 
 Application.prototype.set = function(key, val){
@@ -64,18 +65,18 @@ Application.prototype.get = function(key){
 Application.prototype.listen = function(){
   this.bundler.compile();
   this.log("bundler", "Compiled Assets.")
-  // Check if we're running in dev mode.
-  // Run the bundler:
-  //this.bundle.watch();
   this.log("server", "Tower is listening on port -> {{port}}", {
     port: app.get('port')
   });
   return this.app.listen.apply(this.app, arguments);
 }
 
-Application.prototype.log = consoleFn;
 
-// same with log/view/route/stream
-Application.prototype.model = function(){
-  return Application.prototype.model = require('tower-model');
-}
+Application.prototype.log     = consoleFn;
+Application.prototype.model   = require('tower-model');
+Application.prototype.bundler = require('tower-bundle').bundler;
+Application.prototype.route   = require('tower-route');
+Application.prototype.router  = require('tower-router');
+Application.prototype.bundle  = require('tower-bundle');
+
+

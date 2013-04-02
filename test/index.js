@@ -36,8 +36,20 @@ describe('app', function(){
         .to(function(val) { return !!val; })
         .from(function(val) { return !!val; });
 
-    console.log(mock);
+    //console.log(mock);
 
     assert(require('tower-adapter') == app.adapter);
+  });
+
+  it('should have the graph (for queries)', function(){
+    var graph = app.graph
+    assert(require('tower-graph') == graph);
+
+    var topology = graph
+      .select('posts')
+      .select('comments')
+      .where('comments.post_id').eq('posts.id');
+
+    console.log(topology);
   });
 });

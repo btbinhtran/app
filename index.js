@@ -88,3 +88,5 @@ Application.prototype.adapter = function adapter(){
   Application.prototype.adapter = require('tower-adapter');
   return Application.prototype.adapter.apply(Application.prototype.adapter, arguments);
 }
+
+Application.prototype.graph = require('tower-graph');

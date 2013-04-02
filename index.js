@@ -51,7 +51,6 @@ function Application(name) {
       console.log(context.path);
     });
   });
-
 }
 
 Application.prototype.set = function(key, val){
@@ -62,6 +61,7 @@ Application.prototype.get = function(key){
   return this.app.get(key);
 };
 
+// XXX: `start` and `stop`
 Application.prototype.listen = function(){
   this.bundler.compile();
   this.log("bundler", "Compiled Assets.")
@@ -71,16 +71,16 @@ Application.prototype.listen = function(){
   return this.app.listen.apply(this.app, arguments);
 }
 
-Application.prototype.log     = consoleFn;
+Application.prototype.log = consoleFn;
 
-Application.prototype.model   = function model(){
+Application.prototype.model = function model(){
   Application.prototype.model = require('tower-model');
   return Application.prototype.model.apply(Application.prototype.model, arguments);
 }
 
 Application.prototype.bundler = require('tower-bundle').bundler;
-Application.prototype.route   = require('tower-route');
-Application.prototype.router  = require('tower-router');
-Application.prototype.bundle  = require('tower-bundle');
+Application.prototype.route = require('tower-route');
+Application.prototype.router = require('tower-router');
+Application.prototype.bundle = require('tower-bundle');
 
 

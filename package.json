@@ -8,8 +8,9 @@
     "tower-bundle": "*",
     "tower-route": "*",
     "tower-context": "*",
+    "tower-router": "*",
     "tower-model": "*",
     "tower-view": "*",
-    "tower-server-router": "*"
+    "tower-adapter": "*"
   }
 }

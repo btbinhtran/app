@@ -27,4 +27,17 @@ describe('app', function(){
       done();
     })
   });
+
+  it('should have the adapter', function(){
+    var mock = app.adapter('mock')
+
+    mock
+      .type('boolean')
+        .to(function(val) { return !!val; })
+        .from(function(val) { return !!val; });
+
+    console.log(mock);
+
+    assert(require('tower-adapter') == app.adapter);
+  });
 });

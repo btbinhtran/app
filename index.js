@@ -68,6 +68,7 @@ Application.prototype.listen = function(){
   this.log("server", "Tower is listening on port -> {{port}}", {
     port: app.get('port')
   });
+
   return this.app.listen.apply(this.app, arguments);
 }
 
@@ -83,4 +84,7 @@ Application.prototype.route = require('tower-route');
 Application.prototype.router = require('tower-router');
 Application.prototype.bundle = require('tower-bundle');
 
-
+Application.prototype.adapter = function adapter(){
+  Application.prototype.adapter = require('tower-adapter');
+  return Application.prototype.adapter.apply(Application.prototype.adapter, arguments);
+}

@@ -3,6 +3,13 @@
   "version": "0.0.1",
   "dependencies": {
     "ansi": "latest",
-    "express": "*"
+    "express": "*",
+    "tower-container": "*",
+    "tower-bundle": "*",
+    "tower-route": "*",
+    "tower-context": "*",
+    "tower-model": "*",
+    "tower-view": "*",
+    "tower-server-router": "*"
   }
 }

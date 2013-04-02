@@ -23,7 +23,7 @@ module.exports = create;
  */
 
 function create(appArg, server) {
-  app = appArg;
+  app = appArg || express();
   server = server;
 
   return Application;
@@ -71,9 +71,13 @@ Application.prototype.listen = function(){
   return this.app.listen.apply(this.app, arguments);
 }
 
-
 Application.prototype.log     = consoleFn;
-Application.prototype.model   = require('tower-model');
+
+Application.prototype.model   = function model(){
+  Application.prototype.model = require('tower-model');
+  return Application.prototype.model.apply(Application.prototype.model, arguments);
+}
+
 Application.prototype.bundler = require('tower-bundle').bundler;
 Application.prototype.route   = require('tower-route');
 Application.prototype.router  = require('tower-router');

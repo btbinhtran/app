@@ -22,7 +22,7 @@ describe('app', function(){
         next();
       });
 
-    router(new Context('/users'), function(){
+    router('/users', function(){
       assert(1 == calls);
       done();
     })

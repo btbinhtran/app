@@ -1,92 +1,106 @@
-
 /**
  * Module dependencies.
  */
 
 var ansi = require('ansi')
-  , cursor = ansi(process.stdout, { enabled: true })
-  // XXX: Move this into the `tower-log` module
+  , cursor = ansi(process.stdout, {
+    enabled: true
+  })
   , consoleFn = require('./lib/console')
   , express = require('express')
+  . expressApp = null
   , Context = require('tower-context')
-  , app = {}
-  , server = {};
+  , server = {}
+  , fs = require('tower-fs');
 
 /**
  * Expose `create`.
  */
 
 module.exports = create;
+module.exports.app = Application;
 
 /**
  * Create a new `Application`.
  */
 
 function create(appArg, server) {
-  app = appArg || express();
+  expressApp = appArg || express();
   server = server;
-
   return Application;
 }
 
 function Application(name) {
-  if (!(this instanceof Application)) return new Application(name);
 
-  var self = this;
-
-  this.options = {
+  Application.options = {
     environment: server.environemnt
   };
 
-  this.app = app;
-  this.set('port', 3000);
-  this.set('name', name);
+  Application.express = expressApp;
+  Application.set('port', 3000);
+  Application.set('name', name);
+  // Set to false until the hot code push is implemented.
+  Application.set('template caching', false);
 
-  this.app.use('/public', express.static(process.cwd() + '/public'));
+  if (!Application.get('template path')) {
+    Application.set('template path', fs.join(process.cwd(), 'templates'));
+  }
 
-  // XXX: Not sure exactly how `server-router` is supposed to be used.
-  this.app.use(function(req, res, next) {
-    var context = new Context(req.url);
-    self.router(context, function() {
-      console.log(context.path);
-    });
+  Application.express.use(require('express-chrome-logger'));
+
+  Application.express.use('/public', require('express').static(process.cwd() + '/public'));
+  // Handle the routing.
+  Application.express.use(Application.router);
+
+  Application.express.use(function(req, res, next) {
+    res.send(404, 'Not Found');
   });
+
+  return Application;
 }
 
-Application.prototype.set = function(key, val){
-  this.app.set(key, val);
+
+Application.set = function(key, val) {
+  return Application.express.set(key, val);
 };
 
-Application.prototype.get = function(key){
-  return this.app.get(key);
+Application.get = function(key) {
+  return Application.express.get(key);
 };
 
 // XXX: `start` and `stop`
-Application.prototype.listen = function(){
-  this.bundler.compile();
-  this.log("bundler", "Compiled Assets.")
-  this.log("server", "Tower is listening on port -> {{port}}", {
-    port: app.get('port')
+// XXX: Automatically load the bundler if the user doesn't
+//      specify it's own configuration.
+Application.listen = function() {
+
+  Application.log("server", "Tower is listening on port -> {{port}}", {
+    port: Application.express.get('port')
   });
 
-  return this.app.listen.apply(this.app, arguments);
-}
+  return Application.express.listen.apply(Application.express, arguments);
+};
 
-Application.prototype.log = consoleFn;
+// XXX: Use the `logger` module
+Application.log = consoleFn;
 
-Application.prototype.model = function model(){
-  Application.prototype.model = require('tower-model');
-  return Application.prototype.model.apply(Application.prototype.model, arguments);
-}
+Application.model = function model() {
+  Application.model = require('tower-model');
+  return Application.model.apply(Application.model, arguments);
+};
 
-Application.prototype.bundler = require('tower-bundle').bundler;
-Application.prototype.route = require('tower-route');
-Application.prototype.router = require('tower-router');
-Application.prototype.bundle = require('tower-bundle');
+// XXX: Maybe lazy load everything?
+Application.bundler = require('tower-bundle');
+Application.route = require('tower-route');
+Application.router = require('tower-router');
+Application.graph = require('tower-graph');
 
-Application.prototype.adapter = function adapter(){
-  Application.prototype.adapter = require('tower-adapter');
-  return Application.prototype.adapter.apply(Application.prototype.adapter, arguments);
-}
+/**
+ * Lazy load the following modules.
+ */
 
-Application.prototype.graph = require('tower-graph');
+Application.adapter = function adapter() {
+  Application.adapter = require('tower-adapter');
+  return Application.adapter.apply(Application.adapter, arguments);
+};
+
+Application.view = require('tower-server-view');

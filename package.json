@@ -11,6 +11,7 @@
     "tower-router": "*",
     "tower-model": "*",
     "tower-view": "*",
-    "tower-adapter": "*"
+    "tower-adapter": "*",
+    "express-chrome-logger": "0.0.1"
   }
 }

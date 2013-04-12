@@ -73,6 +73,8 @@ Application.get = function(key) {
 //      specify it's own configuration.
 Application.listen = function() {
 
+  Application.bundler.watch();
+
   Application.log("server", "Tower is listening on port -> {{port}}", {
     port: Application.express.get('port')
   });

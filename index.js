@@ -32,6 +32,8 @@ function create(appArg, server) {
 
 function Application(name) {
 
+  Application.bundler.watch();
+
   Application.options = {
     environment: server.environemnt
   };
@@ -72,8 +74,6 @@ Application.get = function(key) {
 // XXX: Automatically load the bundler if the user doesn't
 //      specify it's own configuration.
 Application.listen = function() {
-
-  Application.bundler.watch();
 
   Application.log("server", "Tower is listening on port -> {{port}}", {
     port: Application.express.get('port')

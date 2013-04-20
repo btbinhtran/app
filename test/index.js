@@ -1,31 +1,12 @@
-var app = require('..')()()
-  , model = require('tower-model')
-  , route = require('tower-route')
-  , router = require('tower-router')
-  , Context = require('tower-context')
-  , assert = require('assert');
+var app = require('..')
+  , assert = require('assert')
 
 describe('app', function(){
   it('should load modules', function(){
     var User = app.model('user')
       .attr('email');
 
-    assert(model === app.model);
-  });
-
-  it('should handle route', function(done){
-    var calls = 0;
-
-    route('/users', 'users.index')
-      .use(function(context, next){
-        calls++;
-        next();
-      });
-
-    router('/users', function(){
-      assert(1 == calls);
-      done();
-    })
+    assert(require('tower-model') === app.model);
   });
 
   it('should have the adapter', function(){
@@ -41,15 +22,14 @@ describe('app', function(){
     assert(require('tower-adapter') == app.adapter);
   });
 
-  it('should have the graph (for queries)', function(){
-    var graph = app.graph
-    assert(require('tower-graph') == graph);
+  it('should query', function(){
+    var query = app.query
+    assert(require('tower-query') == query);
 
-    var topology = graph
-      .select('posts')
-      .select('comments')
-      .where('comments.post_id').eq('posts.id');
+    var q = query()
+      .select('post')
+      .where('title').eq('post three');
 
-    console.log(topology);
+    console.log(q);
   });
 });

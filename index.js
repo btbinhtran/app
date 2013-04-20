@@ -16,7 +16,7 @@ exports.init = function(server){
   this.bundle.watch();
 };
 
-exports.view = require('tower-server-view');
+exports.view = require('tower-view');
 exports.router = require('tower-router');
 exports.route = require('tower-route');
 exports.model = require('tower-model');

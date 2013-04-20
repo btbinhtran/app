@@ -10,6 +10,7 @@
     "tower-adapter": "*",
     "tower-query": "*",
     "tower-topology": "*",
+    "tower-fs": "*",
     "express-chrome-logger": "0.0.1"
   }
 }

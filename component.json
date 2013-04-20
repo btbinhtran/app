@@ -4,7 +4,6 @@
   "description": "Tower App",
   "version": "0.0.1",
   "keywords": [],
-
   "local": [
     "client-view",
     "client-router",

@@ -8,6 +8,8 @@
     "tower-model": "*",
     "tower-view": "*",
     "tower-adapter": "*",
+    "tower-query": "*",
+    "tower-topology": "*",
     "express-chrome-logger": "0.0.1"
   }
 }

@@ -22,6 +22,8 @@ exports.route = require('tower-route');
 exports.model = require('tower-model');
 exports.adapter = require('tower-adapter');
 exports.stream = require('tower-stream');
+exports.query = require('tower-query');
+exports.topology = require('tower-topology');
 
 exports.start = function(){
   this.server.listen();

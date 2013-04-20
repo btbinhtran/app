@@ -1,7 +1,7 @@
+
 /**
  * Module dependencies.
  */
-
 
 var fs = require('tower-fs');
 
@@ -9,35 +9,24 @@ var fs = require('tower-fs');
  * Create a new `Application`.
  */
 
-var app = {
-
-  init: function(server) {
-    this.server = server;
-    this.server.express.use(this.router);
-    this.bundle = server.bundle;
-    this.bundle.watch();
-  }
-
-  , view: require('tower-server-view')
-  , router: require('tower-router')
-  , route: require('tower-route')
-  , model: require('tower-model')
-  , adapter: require('tower-adapter')
-  , stream: require('tower-stream')
-
+exports.init = function(server){
+  this.server = server;
+  this.server.express.use(this.router);
+  this.bundle = server.bundle;
+  this.bundle.watch();
 };
 
-app.start = function() {
+exports.view = require('tower-server-view');
+exports.router = require('tower-router');
+exports.route = require('tower-route');
+exports.model = require('tower-model');
+exports.adapter = require('tower-adapter');
+exports.stream = require('tower-stream');
+
+exports.start = function(){
   this.server.listen();
 };
 
-app.stop = function() {
+exports.stop = function(){
 
 };
-
-
-/**
- * Expose `create`.
- */
-
-module.exports = app;

@@ -7,7 +7,9 @@
 
   "local": [
     "client-view",
-    "client-router"
+    "client-router",
+    "client-session",
+    "client-socket"
   ],
   "paths": [
     "./../"

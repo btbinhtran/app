@@ -1,12 +1,21 @@
+var Socket = require('tower-socket');
+
 
 /**
  * Expose `create`.
  */
 
-var Application = {};
+var app = {};
 
-Application.view = require('tower-view');
-Application.router = require('tower-router');
-Application.route = Application.router.route;
+app.view = require('tower-view');
+app.router = require('tower-router');
+app.route = app.router.route;
+app.session = require('tower-session');
+app.socket = new Socket();
 
-module.exports = Application;
+module.exports = app;
+
+
+app.socket.get({ type: 'asset', message: 'reload' }, function(message) {
+  window.location.reload();
+});

@@ -2,12 +2,8 @@
   "name": "tower-app",
   "version": "0.0.1",
   "dependencies": {
-    "ansi": "latest",
-    "express": "*",
-    "tower-container": "*",
-    "tower-bundle": "*",
+    "tower-fs": "*",
     "tower-route": "*",
-    "tower-context": "*",
     "tower-router": "*",
     "tower-model": "*",
     "tower-view": "*",

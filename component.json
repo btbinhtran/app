@@ -4,15 +4,12 @@
   "description": "Tower App",
   "version": "0.0.1",
   "keywords": [],
-  "local": [
-    "client-view",
-    "client-router",
-    "client-session",
-    "client-socket"
-  ],
-  "paths": [
-    "./../"
-  ],
+  "dependencies": {
+    "tower/client-view": "*",
+    "tower/client-router": "*",
+    "tower/client-session": "*",
+    "tower/client-socket": "*"
+  },
   "main": "./client.js",
   "scripts": [
     "client.js"

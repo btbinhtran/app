@@ -8,7 +8,11 @@
     "tower/client-view": "*",
     "tower/client-router": "*",
     "tower/client-session": "*",
-    "tower/client-socket": "*"
+    "tower/client-socket": "*",
+    "tower/run-loop": "*",
+    "tower/model": "*",
+    "tower/query": "*",
+    "tower/stream": "*"
   },
   "main": "./client.js",
   "scripts": [
